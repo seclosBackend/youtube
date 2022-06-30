@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href = "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto+Slab|Roboto:300,400,500,700" rel = "stylesheet" /><link href = "https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto+Slab|Roboto:300,400,500,600,700" rel = "stylesheet" />
+    <title>youtube home page</title>
+    <style>
+        html,body{
+           margin:0;
+           width:100%;
+           height:100%;
+           font-family: Arial, Helvetica, sans-serif;
+        }
+        nav{
+            height:50px;
+            background-color: cornflowerblue;
+        }
+        .over-all-content{
+            width:100%;
+            height:calc(100% - 50px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .centrify{
+            width: 100%;
+            max-width:1200px;
+            height:100%;
+        }
+        .content{
+            width:100%;
+            height: calc(100% );
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows:1fr 1fr;
+            grid-template-areas: 
+            'a a a  a c c'
+            'b b b b c c'
+            ;
+        }
+        .a{
+            grid-area: a;
+            display:flex;
+            padding:20px;
+            padding-bottom:0;
+        }
+        .b{
+            grid-area: b;
+            display:flex;
+            flex-direction: column;
+            padding:20px;
+            padding-bottom:0;
+           
+            min-height:0;
+            /* overflow-y: auto; */
+            /* background-color: crimson; */
+        }
+        .c{
+            grid-area: c;
+            flex-direction: column;
+            display: flex;
+            padding:20px;
+            padding-bottom:0;
+            padding-left: 0;
+        }
+        .video-player{
+            flex: 1;
+            background-color: rgba(0,0,0,0.05);
+        }
+        .video-basics{
+            width:100%;
+        }
+        .comments{
+            flex: 1;
+            margin-top:10px;
+            overflow-y: auto;
+        }
+        p{
+            margin: 0;
+        }
+        h2,h3{
+            margin:0;
+            margin-bottom:10px;
+        }
+        .video-controls{
+            max-width:650px;
+            height:40px;
+            display: flex;
+        }
+        .video-btn{
+            flex: 1;
+            display: flex;
+            margin-right:10px;
+        }
+        .video-btn .v-b-icon{
+            width:40px;
+            height:100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+        }
+        .video-btn .v-b-icon:hover{
+            background-color:rgba(0,0,0,0.05)
+        }
+        .video-btn .v-b-text{
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+        }
+        .material-icons{
+            color: rgba(0,0,0,0.50);
+        }
+        .comment-top-wrap{
+            height:60px;
+            display: flex;
+            box-sizing: border-box;
+            border:1px solid rgba(0,0,0,0.1)
+        }
+        .c-top-left{
+            flex: 1;
+            height:100%;
+            float:left;
+            display: flex;
+            align-items: center;
+            margin-right:10px;
+        }
+        .c-top-right{
+            height:100%;
+            float:right;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right:10px;
+        }
+        .c-top-right button{
+            background-color: red;
+            border-radius:2.5px;
+            border: none;
+            width:120px;
+            height: 40px;
+            font-size:16px;
+            color: white;   
+        }
+        .c-profile{
+            width:50px;
+            height:50px;
+            border-radius: 50%;
+            margin-right:10px;
+            margin-left: 10px;
+
+            background-color: darkgoldenrod;
+        }
+        .c-profile-details{
+            width:200px;
+            height:40px;
+            display: flex;
+            flex-direction: column;
+        }
+        .c-profile-details .top{
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        .c-profile-details .top h3{
+            margin: 0;
+        }
+        .c-profile-details .bottom{
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        .verified{
+            width:18px;
+            height:18px;
+            border-radius: 50%;
+            margin-left:5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .comment-number{
+            height:50px;
+            display: flex;
+            align-items: center;
+        }
+        .comment-number h3{
+            margin: 0;
+        }
+        .comments-content{
+            height: calc(100% - 110px) ;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+       
+        .active-profile{
+            height:40px;
+            width:40px;
+            border-radius:50%;
+            margin-right:10px;
+            float: left;
+            background-color: dodgerblue;
+        }
+        .active-textarea{
+            width: calc(100% - 60px);
+            border-bottom:1px solid rgba(0,0,0,.25);
+            float: right;
+        }
+        .active-content{
+            max-width:100%; 
+            padding-top:12px;
+            padding-bottom:12px;
+            padding-left:10px;
+            
+            background-color:rgba(0, 0, 0, 0.05);
+        }
+        
+        [contenteditable][placeholder]:empty:before {
+            width:100%;
+            height:100%;
+            outline:none;
+            content: attr(placeholder);
+            color:rgba(0, 0, 0, 0.45);
+          }
+        [contenteditable][placeholder]:focus{
+            outline:none;
+        }
+
+        .active-comment-add{
+            width: 100%;
+            height: 50px;
+            display: inline-block;
+            /* display: none; */
+        }
+        .active-comment-add button{
+            background-color: rgba(0,0,0,.25);
+            border: none;
+            width:120px;
+            height: 40px;
+            float: right;
+            font-size:16px;
+            color: rgba(0,0,0,0.750);   
+            margin-left:10px;
+            margin-top:10px;
+            border-radius:2.5px;
+        }
+        .old-comment{
+            width: 100%;
+            overflow-y: auto;
+            margin-top:20px;
+        }
+        .other-c-profile{
+            height:40px;
+            width:40px;
+            border-radius:50%;
+            margin-right:10px;
+            float: left;
+            background-color: rgba(0,0,0,.25);
+        }
+        .other-c-textarea{
+            width: calc(100% - 60px);
+            box-sizing: border-box;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            float: right;
+        }
+        .other-c-textarea .top{
+            display: flex;
+            align-items: center;
+            margin-bottom:5px;
+        }
+        .old-comment h3{
+            font-size:16px;
+            margin:0;
+        }
+        .other-c-textarea span{
+            margin-left:5px;
+        }
+
+        .commented-controls{
+            height:30px;
+            margin-top:5px;
+            max-width:170px;
+            display: flex;
+        }
+        .commented-controls .btn{
+            height:100%;
+            flex: 1;
+            display: flex;
+            margin-right:5px;
+        }
+        .commented-controls .btn:nth-child(1){
+            flex:3;
+
+        }
+        .commented-controls .btn:last-child{
+            flex:4;
+        }
+        .commented-controls .btn .icon{
+           width:30px;
+           height:100%;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+        }
+        .commented-controls .btn .text{
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+       
+        .commented-controls .material-icons{
+            font-size:16px;
+        }
+        .old-comment-wrap{
+            width:100%;
+            flex: 1;
+            overflow-y: auto;
+        }
+        .old-comment-wrap::-webkit-scrollbar {
+            width: 0px;
+        }
+        .comment-expand-wrap{
+            height:20px;
+            display: flex;
+            margin-bottom:10px;
+            /* background-color: coral; */
+        }
+        .c-exp-icon{
+            width: 30px;
+            height:20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .c-exp-text{
+            flex:1;
+            display: flex;
+            padding-left:4px;
+            align-items: center;
+            text-decoration: underline;
+        }
+        .nextvideo{
+            width:100%;
+            height: 80px;
+            display: flex;
+            box-sizing: border-box;
+            background-color:rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0,0,0,.1);
+            margin-bottom:50px;
+        }
+        .nextvideo .left{
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            padding:20px;
+        }
+        .nextvideo .right{
+            width:50px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .nextvideo .left h3{
+            margin-bottom:5px;
+            font-style: italic;
+        }
+        .nextvideo .left p{
+            font-style: italic;
+        }
+        .suggested-videos{
+            flex: 1; 
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .suggested-video{
+            display: flex;
+            height:140px; 
+            margin-bottom:10px;
+        }
+        .suggested-video .left{
+            width:200px;
+            height:100%;
+            background-color: khaki;
+            position: relative;
+        }
+        .suggested-video .duration{
+            
+            position: absolute;
+            bottom:5px;
+            right:5px;
+            display: flex;
+            padding: 5px 10px 5px 10px;
+            justify-content: center;
+            align-items: center;
+            font-weight:600;
+            background-color:rgba(0, 0, 0, 0.05);
+        }
+        .suggested-video .right{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.05);
+            padding:10px;
+            padding-top:20px;
+            padding-bottom:20px;
+        }
+        .suggested-video .right .top{
+            flex: 3;
+            display: flex;
+            align-items: center;
+            /* background-color: rgba(0, 0, 0, 0.05); */
+        }
+        .suggested-video .right .middle{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            /* background-color: rgba(0,0,0,.1); */
+        }
+        .suggested-video .right .bottom{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            /* background-color: rgba(0,0,0,.25); */
+        }
+      
+        
+        
+     
+
+    </style>
+</head>
+<body>
+    <nav></nav>
+    <div class="over-all-content">
+        <div class="centrify">
+            <div class="content">
+                <div class="a"><div class="video-player"></div></div>
+                <div class="b">
+                    <div class="video-basics">
+                        <p>#KuamiEugene #TakeAway #LynxEntertainment</p>
+                        <h2>Kuami Eugene - Take Away (Visualizer)</h2>
+                        <h3>23,327 views  Jun 26, 2022</h3>
+                        <div class="video-controls">
+                            <div class="video-btn">
+                                <div class="v-b-icon">
+                                    <i class="material-icons">thumb_up</i>
+                                </div>
+                                <div class="v-b-text"><p>13K</p></div>
+                            </div>
+                            <div class="video-btn">
+                                <div class="v-b-icon">
+                                    <i class="material-icons">thumb_down</i>
+                                </div>
+                                <div class="v-b-text"><p>Dislike</p></div>
+                            </div>
+                            <div class="video-btn">
+                                <div class="v-b-icon">
+                                    <i class="material-icons">share</i>
+                                </div>
+                                <div class="v-b-text"><p>Share</p></div>
+                            </div>
+                            <div class="video-btn">
+                                <div class="v-b-icon">
+                                    <i class="material-icons">content_cut</i>
+                                </div>
+                                <div class="v-b-text"><p>Clip</p></div>
+                            </div>
+                            <div class="video-btn">
+                                <div class="v-b-icon">
+                                    <i class="material-icons">playlist_add</i>
+                                </div>
+                                <div class="v-b-text"><p>Save</p></div>
+                            </div>
+                            <div class="video-btn">
+                                <div class="v-b-icon">
+                                    <i class="material-icons">more_horiz</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comments">
+                        <div class="comment-top-wrap">
+                            <div class="c-top-left">
+                                <div class="c-profile"></div>
+                                <div class="c-profile-details">
+                                    <div class="top"><h3>Kwame Eugene</h3><div class="verified"><i class="material-icons" style="font-size: 18px">check_circle</i></div></div>
+                                    <div class="bottom"><p>416K subscribers</p></div>
+                                </div>
+                            </div>
+                            <div class="c-top-right"><button>SUBSCRIBE</button></div>
+                        </div>
+                        <div class="comment-number"><h3>458 Comments </h3></div>
+                        <div class="comments-content">
+                            <div class="active-commenter">
+                                <div class="active-profile"></div>
+                                <div class="active-textarea">
+                                    <div class="active-content"><div contenteditable="true" placeholder="Commenting as Isaac Mensah" oninput="commentoptions(this)"></div></div>
+                                </div>
+                                <div class="active-comment-add">
+                                    <button>COMMENT</button>
+                                    <button>CANCEL</button>
+                                </div>
+                            </div>
+                            <div class="old-comment-wrap">
+                                <div class="old-comment">
+                                    <div class="other-c-profile"></div>
+                                    <div class="other-c-textarea">
+                                        <div class="top"><h3>Isaac Mensah</h3><span>1 week ago</span></div>
+                                        <p>As someone with adhd I really relate to Joyner. It feels nice to see someone in the industry who I listen to that understands what I have to deal with each day.</p>
+                                        <div class="commented-controls">
+                                            <div class="btn">
+                                                <div class="icon"> <i class="material-icons">thumb_up</i></div>
+                                                <div class="text"><p>33</p></div>
+                                            </div>
+                                            <div class="btn">
+                                                <div class="icon"><i class="material-icons">thumb_down</i></div>
+                                            </div>
+                                            <div class="btn"><div class="text"><p>REPLY</p></div></div>
+                                        </div>
+                                        <div class="comment-expand-wrap">
+                                            <div class="c-exp-icon"><i class="material-icons">arrow_drop_down</i></div>
+                                            <div class="c-exp-text"><p>View 5 more replies</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="old-comment">
+                                    <div class="other-c-profile"></div>
+                                    <div class="other-c-textarea">
+                                        <div class="top"><h3>Isaac Mensah</h3><span>1 week ago</span></div>
+                                        <p>As someone with adhd I really relate to Joyner. It feels nice to see someone in the industry who I listen to that understands what I have to deal with each day.</p>
+                                        <div class="commented-controls">
+                                            <div class="btn">
+                                                <div class="icon"> <i class="material-icons">thumb_up</i></div>
+                                                <div class="text"><p>33</p></div>
+                                            </div>
+                                            <div class="btn">
+                                                <div class="icon"><i class="material-icons">thumb_down</i></div>
+                                            </div>
+                                            <div class="btn"><div class="text"><p>REPLY</p></div></div>
+                                        </div>
+                                        <div class="comment-expand-wrap">
+                                            <div class="c-exp-icon"><i class="material-icons">arrow_drop_down</i></div>
+                                            <div class="c-exp-text"><p>View 5 more replies</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="old-comment">
+                                    <div class="other-c-profile"></div>
+                                    <div class="other-c-textarea">
+                                        <div class="top"><h3>Isaac Mensah</h3><span>1 week ago</span></div>
+                                        <p>As someone with adhd I really relate to Joyner. It feels nice to see someone in the industry who I listen to that understands what I have to deal with each day.</p>
+                                        <div class="commented-controls">
+                                            <div class="btn">
+                                                <div class="icon"> <i class="material-icons">thumb_up</i></div>
+                                                <div class="text"><p>33</p></div>
+                                            </div>
+                                            <div class="btn">
+                                                <div class="icon"><i class="material-icons">thumb_down</i></div>
+                                            </div>
+                                            <div class="btn"><div class="text"><p>REPLY</p></div></div>
+                                        </div>
+                                        <div class="comment-expand-wrap">
+                                            <div class="c-exp-icon"><i class="material-icons">arrow_drop_down</i></div>
+                                            <div class="c-exp-text"><p>View 5 more replies</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="old-comment">
+                                    <div class="other-c-profile"></div>
+                                    <div class="other-c-textarea">
+                                        <div class="top"><h3>Isaac Mensah</h3><span>1 week ago</span></div>
+                                        <p>As someone with adhd I really relate to Joyner. It feels nice to see someone in the industry who I listen to that understands what I have to deal with each day.</p>
+                                        <div class="commented-controls">
+                                            <div class="btn">
+                                                <div class="icon"> <i class="material-icons">thumb_up</i></div>
+                                                <div class="text"><p>33</p></div>
+                                            </div>
+                                            <div class="btn">
+                                                <div class="icon"><i class="material-icons">thumb_down</i></div>
+                                            </div>
+                                            <div class="btn"><div class="text"><p>REPLY</p></div></div>
+                                        </div>
+                                        <div class="comment-expand-wrap">
+                                            <div class="c-exp-icon"><i class="material-icons">arrow_drop_down</i></div>
+                                            <div class="c-exp-text"><p>View 5 more replies</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="old-comment">
+                                    <div class="other-c-profile"></div>
+                                    <div class="other-c-textarea">
+                                        <div class="top"><h3>Isaac Mensah</h3><span>1 week ago</span></div>
+                                        <p>As someone with adhd I really relate to Joyner. It feels nice to see someone in the industry who I listen to that understands what I have to deal with each day.</p>
+                                        <div class="commented-controls">
+                                            <div class="btn">
+                                                <div class="icon"> <i class="material-icons">thumb_up</i></div>
+                                                <div class="text"><p>33</p></div>
+                                            </div>
+                                            <div class="btn">
+                                                <div class="icon"><i class="material-icons">thumb_down</i></div>
+                                            </div>
+                                            <div class="btn"><div class="text"><p>REPLY</p></div></div>
+                                        </div>
+                                        <div class="comment-expand-wrap">
+                                            <div class="c-exp-icon"><i class="material-icons">arrow_drop_down</i></div>
+                                            <div class="c-exp-text"><p>View 5 more replies</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="old-comment">
+                                    <div class="other-c-profile"></div>
+                                    <div class="other-c-textarea">
+                                        <div class="top"><h3>Isaac Mensah</h3><span>1 week ago</span></div>
+                                        <p>As someone with adhd I really relate to Joyner. It feels nice to see someone in the industry who I listen to that understands what I have to deal with each day.</p>
+                                        <div class="commented-controls">
+                                            <div class="btn">
+                                                <div class="icon"> <i class="material-icons">thumb_up</i></div>
+                                                <div class="text"><p>33</p></div>
+                                            </div>
+                                            <div class="btn">
+                                                <div class="icon"><i class="material-icons">thumb_down</i></div>
+                                            </div>
+                                            <div class="btn"><div class="text"><p>REPLY</p></div></div>
+                                        </div>
+                                        <div class="comment-expand-wrap">
+                                            <div class="c-exp-icon"><i class="material-icons">arrow_drop_down</i></div>
+                                            <div class="c-exp-text"><p>View 5 more replies</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="c">
+                    <div class="nextvideo">
+                        <div class="left">
+                            <h3 style="font-weight:600;">Next:Lasmid- FridayNight (Lyrics Video )</h3>
+                            <p>Mix - Lasmid- FridayNight (Lyrics Video )</p>
+                        </div>
+                        <div class="right">
+                            <i class="material-icons">expand_more</i>
+                        </div>
+                    </div>
+                    <div class="suggested-videos">
+                        <div class="suggested-video">
+                            <div class="left">
+                                <div class="duration"><p>7:45</p></div>
+                            </div>
+                            <div class="right">
+                                <div class="top"><h3>Joyner Lucas - adhd(Full Album)</h3></div>
+                                <div class="middle"><p>Joyner Lucas</p> <i class="material-icons" style="font-size: 16px">music_note</i></div>
+                                <div class="bottom"><p>6.1M views . 2 years ago</p></div>
+                            </div>
+                        </div>
+                        <div class="suggested-video">
+                            <div class="left">
+                                <div class="duration"><p>7:45</p></div>
+                            </div>
+                            <div class="right">
+                                <div class="top"><h3>Joyner Lucas - adhd(Full Album)</h3></div>
+                                <div class="middle"><p>Joyner Lucas</p> <i class="material-icons" style="font-size: 16px">music_note</i></div>
+                                <div class="bottom"><p>6.1M views . 2 years ago</p></div>
+                            </div>
+                        </div>
+                        <div class="suggested-video">
+                            <div class="left">
+                                <div class="duration"><p>7:45</p></div>
+                            </div>
+                            <div class="right">
+                                <div class="top"><h3>Joyner Lucas - adhd(Full Album)</h3></div>
+                                <div class="middle"><p>Joyner Lucas</p> <i class="material-icons" style="font-size: 16px">music_note</i></div>
+                                <div class="bottom"><p>6.1M views . 2 years ago</p></div>
+                            </div>
+                        </div>
+
+                        <div class="suggested-video">
+                            <div class="left">
+                                <div class="duration"><p>7:45</p></div>
+                            </div>
+                            <div class="right">
+                                <div class="top"><h3>Joyner Lucas - adhd(Full Album)</h3></div>
+                                <div class="middle"><p>Joyner Lucas</p> <i class="material-icons" style="font-size: 16px">music_note</i></div>
+                                <div class="bottom"><p>6.1M views . 2 years ago</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <script>
+         function commentoptions(element){
+           
+        }
+    </script>
+</body>
+</html>
